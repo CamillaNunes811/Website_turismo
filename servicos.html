@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+   body {
+      background-image: url(3.png); 
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif; 
+   }
+
+   ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #4682B4;
+   }
+
+   li {
+      float: left;
+      border-right: 1px solid #bbb;
+   }
+
+   li:last-child {
+      border-right: none;
+   }
+
+   li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+   }
+
+   li a:hover:not(.active) {
+      background-color: #111;
+   }
+
+   .active {
+      background-color: #00008B;
+   }
+
+   /* Estilos para o rodapé */
+   footer {
+      background-color: #4682B4; 
+      color: white;
+      text-align: center;
+      padding: 10px 0; 
+      position: fixed;
+      bottom: 0px;
+      width: 100%;
+   }
+
+   table {
+      width: 100%;
+      border-collapse: collapse; 
+   }
+
+   table td {
+      padding: 3px;
+   }
+
+   /* Estilos para os links de contato no rodapé */
+   footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px; 
+   }
+
+   /* Estilos para a galeria de fotos */
+   .gallery-container {
+      display: flex;
+      justify-content: center; /* Centraliza horizontalmente */
+      align-items: flex-end; /* Alinha na parte inferior */
+      height: 200px; /* Altura da área de visualização */
+      overflow: hidden;
+      position: fixed;
+      bottom: 50px; /* Distância entre a galeria e o rodapé */
+      left: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.8); /* Cor de fundo da galeria */
+   }
+
+   .gallery {
+      display: flex;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+   }
+
+   .gallery img {
+      width: 200px; /* Largura das fotos */
+      height: auto;
+      margin: 0 10px; /* Espaçamento entre as fotos */
+      cursor: pointer;
+   }
+
+   /* Estilos para as setas de navegação */
+   .prev, .next {
+      font-size: 36px;
+      color: #4682B4; /* Cor das setas */
+      cursor: pointer;
+   }
+
+   /* Estilos para o modal de imagem */
+   .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+   }
+
+   .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 800px;
+   }
+
+   .modal img {
+      width: 100%;
+      height: auto;
+   }
+
+   /* Estilos para o botão de fechar do modal */
+   .close {
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+   }
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a href="index123.html">Home</a></li>
+  <li><a href="acomodacoes.html">Acomodações</a></li>
+  <li><a class="active" href="servicos.html">Serviços</a></li>
+  <li><a href="localizacao.html">Localização</a></li>
+</ul>
+
+<div class="gallery-container">
+   <div class="prev" onclick="prevSlide()">&#10094;</div>
+   <div class="gallery">
+      <img src="foto.jpeg" alt="Foto 1">
+      <img src="foto0.jpeg" alt="Foto 2">
+      <img src="foto1.jpeg" alt="Foto 3">
+      <img src="foto2.jpeg" alt="Foto 4">
+      <img src="foto3.jpeg" alt="Foto 5">
+      <img src="foto4.jpeg" alt="Foto 6">
+      <img src="foto5.jpeg" alt="Foto 7">
+      <img src="foto6.jpeg" alt="Foto 8">
+      <img src="foto7.jpeg" alt="Foto 9">
+      <!-- Adicione mais fotos aqui -->
+   </div>
+   <div class="next" onclick="nextSlide()">&#10095;</div>
+</div>
+
+<footer>
+  <table>
+    <tr>
+      <td>Email: <a href="mailto:tropicalrisort@tropicalrisort.com">tropicalrisort@tropicalrisort.com</a></td>
+      <td>Telefone: <a href="tel:+08009839854">0800 983 9854</a></td>
+    </tr>
+  </table>
+</footer>
+
+<!-- Modal de imagem -->
+<div id="myModal" class="modal">
+   <span class="close" onclick="closeModal()">&times;</span>
+   <div class="modal-content">
+      <img id="modal-img" src="" alt="Imagem ampliada">
+   </div>
+</div>
+
+<script>
+  // Função para mostrar a próxima foto
+  let currentIndex = 0;
+  const images = document.querySelectorAll('.gallery img');
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % images.length;
+    updateGallery();
+  }
+
+  // Função para mostrar a foto anterior
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateGallery();
+  }
+
+  // Atualiza a galeria de fotos para mostrar a foto atual
+  function updateGallery() {
+    const translateValue = -currentIndex * (200 + 20); // Largura da foto + Espaçamento entre as fotos
+    document.querySelector('.gallery').style.transform = `translateX(${translateValue}px)`;
+  }
+
+  // Função para abrir a foto em tamanho maior
+  images.forEach((img, index) => {
+    img.addEventListener('click', () => {
+      const modal = document.getElementById('myModal');
+      const modalImg = document.getElementById('modal-img');
+      modal.style.display = 'block';
+      modalImg.src = img.src;
+    });
+  });
+
+  // Função para fechar o modal de imagem
+  function closeModal() {
+    const modal = document.getElementById('myModal');
+    modal.style.display = 'none';
+  }
+
+  // Fechar o modal ao clicar fora da imagem
+  window.onclick = function(event) {
+    const modal = document.getElementById('myModal');
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
+
+
+
